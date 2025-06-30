@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: azharfazil/python-app
   pullPolicy: IfNotPresent
-  tag: ba91ec
+  tag: e5ed6e
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
