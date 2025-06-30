@@ -51,7 +51,7 @@ jobs:
 
      -
        name: Commit changes
-       shell: EndBug/add-and-commit@v9
+       uses: EndBug/add-and-commit@v9
        with:
          message: 'Updates values.yaml image tag with ${{needs.ci.outputs.commit_id}}'
 
