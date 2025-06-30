@@ -8,8 +8,8 @@ on:
       - main
 
 jobs:
-  docker:
-    runs-on: self-hosted
+  ci:
+    runs-on: ubuntu-latest 
     steps:
 
       -
@@ -17,6 +17,7 @@ jobs:
         shell: bash
         run: |
           echo "COMMIT_ID=${GITHUB_SHA::6}" >> "$GITHUB_ENV"
+
       -
         name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -29,3 +30,16 @@ jobs:
         with:
           push: true
           tags: azharfazil/python-app:${{ env.COMMIT_ID }}
+   
+   cd: 
+     needs: ci
+     run-on: self-hosted
+     steps:
+
+      -
+        name: Argocd app sync
+        shell: bash
+        run: |
+          argocd login argocd-server.argocd --insecure --grpc-web --username admin --password ${{ secrets.ARGOCD_PASSWORD }}
+          argocd app sync python-app
+
