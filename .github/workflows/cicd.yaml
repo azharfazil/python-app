@@ -31,15 +31,23 @@ jobs:
           push: true
           tags: azharfazil/python-app:${{ env.COMMIT_ID }}
    
-   cd: 
-     needs: ci
-     run-on: self-hosted
-     steps:
+  cd: 
+    needs: ci
+    run-on: self-hosted
+    steps:
 
-      -
-        name: Argocd app sync
-        shell: bash
-        run: |
-          argocd login argocd-server.argocd --insecure --grpc-web --username admin --password ${{ secrets.ARGOCD_PASSWORD }}
-          argocd app sync python-app
+     -
+       name: Install Argocd
+       shell: bash
+       run: |
+         curl -ksSL -o argocd https://argocd-server.argocd/download/argocd-linux-amd64
+         chmod +x argocd
+         sudo mv ./argocd /usr/local/bin/argocd
+
+     -
+       name: Argocd app sync
+       shell: bash
+       run: |
+         argocd login argocd-server.argocd --insecure --grpc-web --username admin --password ${{ secrets.ARGOCD_PASSWORD }}
+         argocd app sync python-app
 
