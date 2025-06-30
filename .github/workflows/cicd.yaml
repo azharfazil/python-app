@@ -33,7 +33,7 @@ jobs:
    
   cd: 
     needs: ci
-    run-on: self-hosted
+    runs-on: self-hosted
     steps:
 
      -
